@@ -3282,14 +3282,18 @@ namespace WebSocketSharp
         throw new InvalidOperationException (msg);
       }
 
-      Func<bool> connector = connect;
-      connector.BeginInvoke (
-        ar => {
-          if (connector.EndInvoke (ar))
-            open ();
-        },
-        null
-      );
+      Task.Run(() => {
+        if (connect())
+            open();
+      });
+            //Func<bool> connector = connect;
+            //connector.BeginInvoke (
+            //  ar => {
+            //    if (connector.EndInvoke (ar))
+            //      open ();
+            //  },
+            //  null
+            //);
     }
 
     /// <summary>
